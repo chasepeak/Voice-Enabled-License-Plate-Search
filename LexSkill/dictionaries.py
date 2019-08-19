@@ -1,3 +1,5 @@
+#Some values within the library include their synonyms if they could be reasonably interpreted by Lex
+
 phonetic_alphabet = {"alpha": "A", "adam": "A", "boy": "B", "bravo": "B", "charlie": "C",
     "delta": "D", "david": "D", "echo": "E", "edward": "E", "foxtrot": "F", "frank": "F",
     "golf": "G", "george": "G", "hotel": "H", "henry": "H", "india": "I", "ida": "I",
@@ -7,7 +9,7 @@ phonetic_alphabet = {"alpha": "A", "adam": "A", "boy": "B", "bravo": "B", "charl
     "queen": "Q", "romeo": "R", "robert": "R", "sierra": "S", "sam": "S", "tango": "T",
     "tom": "T", "uniform": "U", "union": "U", "victor": "V", "vector": "V", "whiskey": "W",
     "william": "W", "x-ray": "X","yankee": "Y", "young": "Y", "zulu": "Z", "zebra": "Z",
-    "neiner": "9", "niner": "9", "neither": "9", "alfa": "A"
+    "neiner": "9", "niner": "9", "neither": "9", "alfa": "A", "charles": "C"
 }
 
 states = {
@@ -26,3 +28,4 @@ states = {
     'utah': 'UT', 'virginia': 'VA', 'virgin islands': 'VI', 'vermont': 'VT',
     'washington': 'WA', 'wisconsin': 'WI', 'west virginia': 'WV', 'wyoming': 'WY'
 }
+
