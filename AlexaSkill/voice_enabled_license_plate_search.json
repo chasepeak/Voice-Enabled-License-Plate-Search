@@ -46,24 +46,6 @@
                     ]
                 },
                 {
-                    "name": "ParseId",
-                    "slots": [
-                        {
-                            "name": "state",
-                            "type": "AMAZON.US_STATE"
-                        },
-                        {
-                            "name": "record_info",
-                            "type": "RecordInformation"
-                        }
-                    ],
-                    "samples": [
-                        "run {state} identity card {record_info}",
-                        "run {state} identification card {record_info}",
-                        "run {state}  i. d. {record_info}"
-                    ]
-                },
-                {
                     "name": "ParseDriversLicense",
                     "slots": [
                         {
@@ -76,6 +58,7 @@
                         }
                     ],
                     "samples": [
+                        "run {state} driver's license {record_info}",
                         "run {state} driving license {record_info}",
                         "run {state} drivers license {record_info}"
                     ]

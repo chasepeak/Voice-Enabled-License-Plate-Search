@@ -1,28 +1,62 @@
 ```                                                                                
-Chase Peak                                                                         
-Cal Poly Digital Transformation Hub                                                
-```                                                                                
+Chase Peak                                                                      
+Cal Poly Digital Transformation Hub                                             
+```                                                                             
 
 # Voice-Enabled-License-Plate-Search                                               
+### General Overview                                                             
 
-## Overview                                                                        
+The goal of the voice-enabled license plate search program is to make the experience of a police officer operating a vehicle or performing a traffic stop safer. With this program, an officer can record audio from their local computer's microphone with the press and hold of a button, and then send that information to AWS Lex for interpretation and AWS Lambda for translation. As a result, the officer receives back their information in the required syntax for use by their dispatch software. This program was implemented in a Java application to be installed on a local computer with internet access. It takes commands of the form "run {state} {license plate/drivers license} {record information}" from the user, and returns the interpreted information formatted to the user's requirements.
+ 
+This project can be broken into two stages, displaying the growth of the concept:
 
-The goal for this program is to take as input numbers and words from a phonetic alphabet (ex. NATO phonetic alphabet), and return a string that represents the user's input as a license plate, or other official record. For example, the user may initiate a correspondence with Alexa by saying "run license plate alpha bravo charlie one two three", and the output would be ABC123.
+### Alexa Skill
 
-This process will be carried out through an Alexa Skill and a lambda function.  The Alexa Skill will be the front-end to the application, interacting with the user and accepting their input. On the other hand, the lambda function will be parsing and formatting a new response string to either give the license plate string, or to respond with any errors that may have occurred, such as giving record information not based on the NATO/ US Law Enforcement Phonetic Alphabet..
+First, the Alexa skills proves the concept that a voice-enabled application to interact with the officer is possible, and can manipulate and format the data in any way required. This process is carried out through a custom Alexa skill and a lambda function, where Alexa interacts with the user through an Echo device, and the lambda function executes the business logic required to interpret the user's input. Together, this implementation can take record information encoded by US Law Enforcement phonetics, state, and record-type details to return a specific format for a query or log.
 
-**Decoding NATO/US Law Enforcement Phonetics**                                     
+##### Files:
 
-This portion of the project is done in two parts: the Alexa Developer Portal, and the Amazon Developer Console. The file from the former can be found within the voice\_enabled\_license\_plate\_search.json file. I'll explain the intents relevant to this Alexa Skill and how it was implemented:
-
-- ParseLicensePlate/ParseId/ParseDriversLicense:
+- lambda\_function:                                                                 
+Contains the business logic for parsing the user-inputted JSON object. It expects a JSON object specific to the structure provided by Alexa, and focuses on the state and record\_info slots expected from Alexa (i.e. state, record\_info) as well as the ParseLicensePlate or ParseDriversLicense intents. 
 \
-Three intents are being utilized in order to gather information based on the three basic record types that US Law Enforcement would need to identify. The process was carried about by establishing three individual intents for each of the types of record, and then merging each of them into a single method in the lambda function.                        
-\
-In the Alexa Developer Portal, each intent was made specific to a record type so that, in the creation of sample utterances, natural buffers would be put in between slots. In doing this, we can avoid a misinterpretation of the values we hope for each of the slots to grab. For example, creating the sample utterance "run {state} {record\_type} {record\_info}." offers no hard-coded words between slots that Alexa could use to distinguish information meant for each of the slots. Also, we avoid forming awkward-to-speak utterances by forcing cushions between slots like "run state {state} record type {record\_type} record information {record\_info}."
-\
-In the Amazaon Developer Console, a trigger needs to be set for Alexa Skills Kit with the skill id of the Alexa skill. With the given directory imported into the console, and role given to the lambda function (in this case, a dummy role can be provided since the function doesn't need to operate outside of it's current capacity). A single method is used to interact with the three defined intents, since they all serve the same relative purpose. The method parses and forms a string in letters and numbers. In order to prepare the information for extraction to 3rd party software, SSML, an XML-based markup language, is used to present the resulting information vocally while maintaining the data in the best format. For more information on SSML, [click here](https://developer.amazon.com/docs/custom-skills/speech-synthesis-markup-language-ssml-reference.html).
-\
-Lastly, the file *dictionaries.py* contains the python dictionaries for translating NATO phonetic/US Law Enforcement words to letters, and translating states to their respective abbreviations.
+In returning speech responses, the SSML output speech type is used in order to return text in the required form, but respond vocally in a different way. For example, when the user inputs information regarding a state, the program returns the abbreviated version in text (ex. California -> CA) but will give the vocal response of "California" when explaining the result. This allows for a total explanation of what the user is receiving in return, all while giving the necessary format to the response text.
+
+- dictionaries:                                                                     
+Used by lambda\_function to verify the code words are within the US Law Enforcement phonetic alphabet, or that the command contained a valid input for the state information.
+
+- voice\_enabled\_license\_plate\_search:                                           
+The JSON code for setting up the Alexa skill. This contains the intents for gather license plate/drivers license information, their related sample utterances, and the slots used to pick up information on state and record information.
+
+This stage of the project acted as a proof-of-concept to the technological need for a voice-enabled license plate search application. For purposes of providing a program to an entire police department, it would be impractical to require Echo devices to be present wherever the application was needed. So to meet the need of accessibility and convenience, a stand-alone application would be necessary.
+
+### Lex Skill
+talk about what goes into this program on the technical side
+
+##### Files:
+- lambda\_function
+equipped to handle and return lex JSON objects.
+
+- dictionaries
+same as the other one
+
+- **Record\_Search**
+This directory contains the source code. give directory path to source code and explain each here  
+  - Main.java
+explain this
+  - myGUI.java
+explain this
+  - WavRecorder.java
+explain this
+
+explain Lex utterances and stuff (since you can't extract a JSON)
+
+
+
+For this program, a user may request "run California license plate adam boy charles 1234". Lex identifies that string from the submitted audio, and then AWS Lambda translates this string into the required syntax. This translated and formatted text is then returned to the user.
+\                                                                                  
+Unlike the Alexa implementation, this is a stand-alone program that only requires local storage and an internet connection. By running the application, a GUI appears with context to the workings of the program, and an identification label to show when the program is recording the user's audio. By pressing and holding the *ENTER* button, the user can record a command and have that audio transported to AWS Lex and AWS Lambda for interpretation. Lex in this case can be configured to determine the types of utterances that are accepted by the application, and the associated Lambda function determines how the information translated by Lex is handled in its conversion. 
+\ 
+-lambda\_function:                                                                 
+Contains the business logic for parsing the user inputted JSON object. The JSON object is specifically tailored to be interpreted by Lex for responding to the user's Lex runtime command.
 
 For any further questions, contact Chase Peak at **cpeak@calpoly.edu**.

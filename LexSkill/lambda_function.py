@@ -33,14 +33,12 @@ def decode_official_record(intent_slots, record_type):
         for word in phonetic_words:
             digit = phonetic_alphabet.get(word.lower(), None)
             if not digit: #checks for values not appearing in the phonetic dictionary
-                number_string = ""
                 for number in word:
                     try:
                         eval(number) #this forces an error when an invalid value has been give
                     except:
                         return error_response("AWS Lambda couldn't find '" + word + "' in the phonetic alphabet.")
-                    number_string += number
-                record_info += number_string
+                    record_info += number
             else:
                 record_info += digit
 
@@ -65,6 +63,6 @@ def build_lex_response(success, response):
     }
 
 def error_response(input):
-    traceback.print_exc()
+    #traceback.print_exc()
     response = "Invalid input: " + str(input)
     return build_lex_response(False, response)

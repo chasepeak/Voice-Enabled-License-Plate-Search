@@ -41,8 +41,6 @@ def handle_intent(intent_request):
         intent_slots = intent_request['intent']['slots']
         if intent_name == "ParseLicensePlate":
             return decode_official_record(intent_slots, "license plate")
-        elif intent_name == "ParseId":
-            return decode_official_record(intent_slots, "ID")
         elif intent_name == "ParseDriversLicense":
             return decode_official_record(intent_slots, "drivers license")
         else:
@@ -55,21 +53,16 @@ def decode_official_record(intent_slots, record_type):
     try:
         phonetic_string = intent_slots['record_info']['value']
         phonetic_words = phonetic_string.split()
-
-        initial_state = intent_slots['state']['value']
-        state_string = initial_state.split()
-        state = state_string[0] if len(state_string) != 1 else initial_state
+        state = intent_slots['state']['value']
         state_abbrev = states.get(state.lower())
 
         record_info = ""
         for word in phonetic_words:
             digit = phonetic_alphabet.get(word.lower(), None)
-            if not digit: #checks for values not appearing in the phonetic dictionary
-                number_string = ""
+            if not digit: #checks for values not appearing in the phonetic dictionary (ideally numbers)
                 for number in word:
                     eval(number) #this forces an error when an invalid value has been give
-                    number_string += number
-                record_info += number_string
+                    record_info += number
             else:
                 record_info += digit
 
@@ -77,7 +70,7 @@ def decode_official_record(intent_slots, record_type):
         output_speech = '<speak><sub alias="' + state + '\">' + state_abbrev + '</sub> ' + record_type + ' <say-as interpret-as="spell-out">' + record_info + '</say-as></speak>'
         return build_answer(output_speech, output_text)
     except:
-        return error_response(False, phonetic_string, initial_state, record_type)
+        return error_response(False, phonetic_string, state, record_type)
 
 
 def error_response(should_end_session = False, phonetic_string = None, state = None, record_type = None):
@@ -98,14 +91,29 @@ def build_answer(speech_output, output_text):
 
 def build_speech_response(title, output, should_end_session, output_text = None):
     return {
-        "outputSpeech": {"type": "SSML", "ssml": output},
-        "card": {"type": "Standard", "title": title, "context": "", "text": output_text},
-        "reprompt": {"outputSpeech": {"type": "SSML", "ssml": output}},
+        "outputSpeech": {
+            "type": "SSML",
+            "ssml": output
+        },
+        "card": {
+            "type": "Standard",
+            "title": title,
+            "context": "",
+            "text": output_text
+        },
+        "reprompt": {
+            "outputSpeech": {
+                "type": "SSML",
+                "ssml": output
+            }
+        },
         "shouldEndSession": should_end_session
     }
 
 
 def build_response(session_attributes, speech_reponse):
-    return {"version": "1.0", "sessionAttributes": session_attributes,
+    return {
+        "version": "1.0",
+        "sessionAttributes": session_attributes,
         "response": speech_reponse
     }

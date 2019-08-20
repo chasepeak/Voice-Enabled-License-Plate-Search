@@ -1,4 +1,4 @@
-#Some values within the library include their synonyms if they could be reasonably interpreted by Lex
+#Some values within the library include their synonyms if they could be reasonably interpreted by Alexa
 
 phonetic_alphabet = {"alpha": "A", "adam": "A", "boy": "B", "bravo": "B", "charlie": "C",
     "delta": "D", "david": "D", "echo": "E", "edward": "E", "foxtrot": "F", "frank": "F",
