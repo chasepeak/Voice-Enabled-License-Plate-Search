@@ -30,33 +30,20 @@ The JSON code for setting up the Alexa skill. This contains the intents for gath
 This stage of the project acted as a proof-of-concept to the technological need for a voice-enabled license plate search application. For purposes of providing a program to an entire police department, it would be impractical to require Echo devices to be present wherever the application was needed. So to meet the need of accessibility and convenience, a stand-alone application would be necessary.
 
 ### Lex Skill
-talk about what goes into this program on the technical side
+This application produces a graphical user interface that gives the user instructions, a recording indicator, and a display for their command response. By activating the program with a press-and-hold of the [enter] button, the user's audio is included in an Amazon Lex PostContent call, along with other details specifying the Lex Bot. Lex performs the audio interpretation and fitting to the two intents for license plates and driver's licenses. Lex is set up to trigger AWS Lambda for intent fullfilment, which takes the interpreted utterance of the user and executes the same logic on it performed within the Alexa implementation. Then, the original PostContent request returns the formatted string of state, record and record type information. ...
+\
+In order to effectively use this program in its current state, it's necessary to have available Java SE 11 or higher on the local machine. Also, a key is required for access to the Lex bot and other Amazon services used in this program.
 
 ##### Files:
 - lambda\_function
-equipped to handle and return lex JSON objects.
+Contains the business logic required to interpret and return JSON objects specific to Amazon Lex. It operates in a nearly identical way to the lambda function used in the Alexa implementation of RecordSearch.
 
 - dictionaries
-same as the other one
+Used by lambda\_function to verify the code words are within the US Law Enforcement phonetic alphabet, or that the command contained a valid input for the state information.
 
 - **Record\_Search**
-This directory contains the source code. give directory path to source code and explain each here  
-  - Main.java
-explain this
-  - myGUI.java
-explain this
-  - WavRecorder.java
-explain this
-
-explain Lex utterances and stuff (since you can't extract a JSON)
+This directory contains the source code to the RecordSearch Java application.
 
 
-
-For this program, a user may request "run California license plate adam boy charles 1234". Lex identifies that string from the submitted audio, and then AWS Lambda translates this string into the required syntax. This translated and formatted text is then returned to the user.
-\                                                                                  
-Unlike the Alexa implementation, this is a stand-alone program that only requires local storage and an internet connection. By running the application, a GUI appears with context to the workings of the program, and an identification label to show when the program is recording the user's audio. By pressing and holding the *ENTER* button, the user can record a command and have that audio transported to AWS Lex and AWS Lambda for interpretation. Lex in this case can be configured to determine the types of utterances that are accepted by the application, and the associated Lambda function determines how the information translated by Lex is handled in its conversion. 
-\ 
--lambda\_function:                                                                 
-Contains the business logic for parsing the user inputted JSON object. The JSON object is specifically tailored to be interpreted by Lex for responding to the user's Lex runtime command.
 
 For any further questions, contact Chase Peak at **cpeak@calpoly.edu**.

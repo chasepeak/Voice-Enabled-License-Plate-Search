@@ -17,8 +17,8 @@ import javax.sound.sampled.TargetDataLine;
  * This class captures user audio into a .wav file.
  * 
  * @author chasepeak
- * @version 2.3
- *@since 08-19-2019
+ * @version 2.4
+ *@since 08-21-2019
  */
 
 public class WavRecorder {
@@ -99,7 +99,7 @@ public class WavRecorder {
 	public FileInputStream getFileStream() {
 		return fileStream;
 	}
-	
+	 
 	/**
 	 * Setter method for the format of the data line.
 	 * @return initialized AudioFormat instance.

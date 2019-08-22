@@ -21,8 +21,8 @@ import com.amazonaws.services.lexruntime.model.PostContentResult;
  * The process to return a string from Lex takes 2-3 seconds
  * 
  * @author chasepeak
- * @version 2.3
- *@since 08-19-2019
+ * @version 2.4
+ *@since 08-21-2019
  */
 
 public class Main {
@@ -67,6 +67,7 @@ public class Main {
 			try {
 				logFile.createNewFile();
 				count.createNewFile();
+				Files.write(Paths.get(count.getPath()), "0".getBytes(),StandardOpenOption.WRITE);
 			} catch (IOException e) {
 				System.out.println("Could not generate log and count files: ");
 				e.printStackTrace();
@@ -101,7 +102,7 @@ public class Main {
 		String response = contentResult.getMessage();
 		
 		try {
-			Files.write(Paths.get(filePath), formatLogInfo(contentResult).getBytes(),StandardOpenOption.APPEND);
+			Files.write(Paths.get(filePath), formatLogInfo(contentResult).getBytes(), StandardOpenOption.APPEND);
 		} catch (IOException e) {
 			System.out.println("Log information could not be written to file.");
 			e.printStackTrace();
@@ -109,7 +110,6 @@ public class Main {
 		counter++;
 		
 		try {
-			count.createNewFile();
 			Files.write(Paths.get(count.getPath()), Integer.toString(counter).getBytes(), StandardOpenOption.WRITE);
 		} catch (IOException e) {
 			System.out.println("Count file could not be created.");

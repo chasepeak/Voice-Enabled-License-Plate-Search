@@ -12,8 +12,8 @@ import javax.swing.JLabel;
  * This program supports a graphical user interface to facilitate audio recording.
  * 
  * @author chasepeak
- * @version 2.3
- *@since 08-19-2019
+ * @version 2.4
+ *@since 08-21-2019
  */
 
 @SuppressWarnings("serial")
